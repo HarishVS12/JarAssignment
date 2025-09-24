@@ -19,6 +19,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "BASE_URL", "\"https://myjar.app/\"")
     }
 
     buildTypes {
@@ -28,6 +29,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "BASE_URL", "\"https://myjar.app\"")
         }
     }
     compileOptions {
@@ -40,6 +42,8 @@ android {
     buildFeatures {
         compose = true
     }
+
+    buildFeatures.buildConfig = true
 }
 
 dependencies {
