@@ -1,4 +1,4 @@
-package com.harish.jarassignment.ui.theme
+package com.harish.jarassignment.core.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

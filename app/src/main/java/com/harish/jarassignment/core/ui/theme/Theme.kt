@@ -1,6 +1,5 @@
-package com.harish.jarassignment.ui.theme
+package com.harish.jarassignment.core.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
