@@ -2,6 +2,8 @@ package com.harish.jarassignment.di
 
 import com.harish.jarassignment.BuildConfig
 import com.harish.jarassignment.data.remote.MainApiInterface
+import com.harish.jarassignment.data.repo.MainRepo
+import com.harish.jarassignment.domain.repo.MainRepoImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -54,6 +56,12 @@ object MainModule {
     @Singleton
     fun providesMainApiInterface(retrofit: Retrofit): MainApiInterface {
         return retrofit.create(MainApiInterface::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun providesMainRepoImpl(mainApiInterface: MainApiInterface): MainRepo {
+        return MainRepoImpl(mainApiInterface)
     }
 
 }
