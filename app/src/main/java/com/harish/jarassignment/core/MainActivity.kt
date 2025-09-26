@@ -3,7 +3,6 @@ package com.harish.jarassignment.core
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import com.harish.jarassignment.core.ui.theme.JarAssignmentTheme
 import com.harish.jarassignment.presentation.screen.OnboardingScreenRoot
 import dagger.hilt.android.AndroidEntryPoint
@@ -12,7 +11,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             JarAssignmentTheme {
                 OnboardingScreenRoot()
