@@ -18,6 +18,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.harish.jarassignment.core.util.hexToComposeColor
 import com.harish.jarassignment.presentation.component.OnboardingWelcomeScreen
+import com.harish.jarassignment.presentation.state.OnboardingActions
+import com.harish.jarassignment.presentation.state.OnboardingAnimationStates.ONBOARDING_ALL
+import com.harish.jarassignment.presentation.state.OnboardingAnimationStates.ONBOARDING_CONTENT
+import com.harish.jarassignment.presentation.state.OnboardingAnimationStates.ONBOARDING_FULL_INTENT
+import com.harish.jarassignment.presentation.state.OnboardingAnimationStates.ONBOARDING_TOOLBAR
+import com.harish.jarassignment.presentation.state.OnboardingAnimationStates.ONBOARDING_WELCOME
 import com.harish.jarassignment.presentation.viewmodel.OnboardingViewModel
 
 
@@ -60,16 +66,40 @@ fun OnboardingScreen(modifier: Modifier = Modifier, viewModel: OnboardingViewMod
             }
 
             state.onboardingData != null -> {
-                OnboardingWelcomeScreen(
-                    title = state.onboardingData?.onboardingData?.manualBuyEducationData?.introTitle
-                        ?: "",
-                    subtitle = state.onboardingData?.onboardingData?.manualBuyEducationData?.introSubtitle
-                        ?: "",
-                    onAnimationEnd = {
+                when (state.onboardingAnimationStates) {
+                    ONBOARDING_WELCOME -> {
+                        OnboardingWelcomeScreen(
+                            title = state.onboardingData?.onboardingData?.manualBuyEducationData?.introTitle
+                                ?: "",
+                            subtitle = state.onboardingData?.onboardingData?.manualBuyEducationData?.introSubtitle
+                                ?: "",
+                            onAnimationEnd = {
+                                viewModel.onAction(
+                                    OnboardingActions.ChangeOnboardingAnimationState(
+                                        ONBOARDING_TOOLBAR
+                                    )
+                                )
+                            },
+                            modifier = modifier.align(Alignment.Center)
+                        )
+                    }
 
-                    },
-                    modifier = modifier.align(Alignment.Center)
-                )
+                    ONBOARDING_TOOLBAR -> {
+
+                    }
+
+                    ONBOARDING_CONTENT -> {
+
+                    }
+
+                    ONBOARDING_FULL_INTENT -> {
+
+                    }
+
+                    ONBOARDING_ALL -> {
+
+                    }
+                }
             }
 
             else -> {}

@@ -52,6 +52,12 @@ class OnboardingViewModel @Inject constructor(
                     bgEndColor = action.endGradient
                 )
             }
+
+            is OnboardingActions.ChangeOnboardingAnimationState -> {
+                _onboardingState.value = _onboardingState.value.copy(
+                    onboardingAnimationStates = action.state
+                )
+            }
         }
     }
 
