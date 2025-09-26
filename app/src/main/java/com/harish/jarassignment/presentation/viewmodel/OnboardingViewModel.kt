@@ -55,7 +55,7 @@ class OnboardingViewModel @Inject constructor(
 
             is OnboardingActions.ChangeOnboardingAnimationState -> {
                 _onboardingState.value = _onboardingState.value.copy(
-                    onboardingAnimationStates = action.state
+                    onboardingAnimationState = action.state
                 )
             }
         }

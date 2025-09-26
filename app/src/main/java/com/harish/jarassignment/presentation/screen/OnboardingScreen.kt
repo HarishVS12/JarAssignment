@@ -11,19 +11,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.harish.jarassignment.core.util.hexToComposeColor
-import com.harish.jarassignment.presentation.component.OnboardingWelcomeScreen
+import com.harish.jarassignment.presentation.component.OnboardingScreenContent
 import com.harish.jarassignment.presentation.state.OnboardingActions
-import com.harish.jarassignment.presentation.state.OnboardingAnimationStates.ONBOARDING_ALL
-import com.harish.jarassignment.presentation.state.OnboardingAnimationStates.ONBOARDING_CONTENT
-import com.harish.jarassignment.presentation.state.OnboardingAnimationStates.ONBOARDING_FULL_INTENT
-import com.harish.jarassignment.presentation.state.OnboardingAnimationStates.ONBOARDING_TOOLBAR
-import com.harish.jarassignment.presentation.state.OnboardingAnimationStates.ONBOARDING_WELCOME
 import com.harish.jarassignment.presentation.viewmodel.OnboardingViewModel
 
 
@@ -66,40 +60,16 @@ fun OnboardingScreen(modifier: Modifier = Modifier, viewModel: OnboardingViewMod
             }
 
             state.onboardingData != null -> {
-                when (state.onboardingAnimationStates) {
-                    ONBOARDING_WELCOME -> {
-                        OnboardingWelcomeScreen(
-                            title = state.onboardingData?.onboardingData?.manualBuyEducationData?.introTitle
-                                ?: "",
-                            subtitle = state.onboardingData?.onboardingData?.manualBuyEducationData?.introSubtitle
-                                ?: "",
-                            onAnimationEnd = {
-                                viewModel.onAction(
-                                    OnboardingActions.ChangeOnboardingAnimationState(
-                                        ONBOARDING_TOOLBAR
-                                    )
-                                )
-                            },
-                            modifier = modifier.align(Alignment.Center)
+                OnboardingScreenContent(
+                    animationState = state.onboardingAnimationState,
+                    onboardingData = state.onboardingData?.onboardingData,
+                    onNext = { nextState ->
+                        viewModel.onAction(
+                            OnboardingActions.ChangeOnboardingAnimationState(nextState)
                         )
-                    }
-
-                    ONBOARDING_TOOLBAR -> {
-
-                    }
-
-                    ONBOARDING_CONTENT -> {
-
-                    }
-
-                    ONBOARDING_FULL_INTENT -> {
-
-                    }
-
-                    ONBOARDING_ALL -> {
-
-                    }
-                }
+                    },
+                    modifier = modifier.fillMaxSize()
+                )
             }
 
             else -> {}

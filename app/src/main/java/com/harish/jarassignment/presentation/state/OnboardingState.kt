@@ -9,7 +9,7 @@ data class OnboardingState(
     val onboardingData: OnboardingModel? = null,
     val bgStartColor: String = "#201929",
     val bgEndColor: String = "#201929",
-    val onboardingAnimationStates: OnboardingAnimationStates = OnboardingAnimationStates.ONBOARDING_WELCOME
+    val onboardingAnimationState: OnboardingAnimationStates = OnboardingAnimationStates.ONBOARDING_WELCOME
 )
 
 

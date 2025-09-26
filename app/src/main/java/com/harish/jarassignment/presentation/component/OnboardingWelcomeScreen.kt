@@ -32,6 +32,7 @@ import kotlinx.coroutines.delay
 fun OnboardingWelcomeScreen(
     title: String,
     subtitle: String,
+    animDuration: Long,
     onAnimationEnd: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -39,7 +40,7 @@ fun OnboardingWelcomeScreen(
     AnimatedVisibility(
         visible = showText,
         modifier = modifier,
-        exit = fadeOut(animationSpec = tween(durationMillis = 1000))
+        exit = fadeOut(animationSpec = tween(durationMillis = animDuration.toInt()))
     ) {
         Column(
             modifier = modifier
@@ -77,8 +78,8 @@ fun OnboardingWelcomeScreen(
     }
 
     LaunchedEffect(true) {
-        delay(1000)
         showText = false
+        delay(animDuration)
         onAnimationEnd()
     }
 
@@ -91,6 +92,7 @@ fun OnboardingWelcomeScreenPreview() {
     OnboardingWelcomeScreen(
         title = "Welcome to",
         subtitle = "Onboarding",
+        animDuration = 2999,
         onAnimationEnd = {}
     )
 }
