@@ -20,13 +20,28 @@ All dependencies (Kotlin, Jetpack Compose, Navigation, Hilt, Lottie, Retrofit, G
 
 ## Project Structure
 
-app/
-├── src/main/java/com/harish/jarassignment/
-│   ├── core/         # Navigation, Utils
-│   ├── data/         # Network, API DTOs, Mappers, Repository Interface.
-│   ├── domain/       # Domain Models, Use Cases, Repository Impl.
-│   ├── di/           # Hilt Modules
-│   └── presentation/ # UI (Components, Screens, ViewModels, States)
+The main application code resides in `app/src/main/java/com/harish/jarassignment/` and is structured as follows:
+
+> **`core/`**
+> > MainAcitvity.kt -> Main entry point.   
+> > Core utilities, navigation setup, base classes.
+
+> **`data/`**
+> > Network API interfaces, API Data Transfer Objects (DTOs), mappers, and the repository interface.
+
+> **`domain/`**
+> > Domain models, use cases, and the repository implementation.
+
+> **`di/`**
+> > Hilt modules for dependency injection.
+
+> **`presentation/`**
+> > UI layer, containing:
+> > > **`component/`**: Reusable UI components.
+> > > **`screen/`**: Screen-level Composables.
+> > > **`viewmodel/`**: ViewModels.
+> > > **`state/`**: UI State classes.
+
 
 
 
