@@ -8,7 +8,6 @@ import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -208,10 +207,7 @@ fun AnimateSequentialCards(
                 translationY = offsetY.value
                 rotationZ = rotationAnim.value
             }
-            .padding(horizontal = 8.dp)
-            .clickable {
-                expanded = !expanded
-            },
+            .padding(horizontal = 8.dp),
         shape = RoundedCornerShape(cornerRadius),
         colors = CardDefaults.cardColors(
             containerColor = backgroundColor.hexToComposeColor()
