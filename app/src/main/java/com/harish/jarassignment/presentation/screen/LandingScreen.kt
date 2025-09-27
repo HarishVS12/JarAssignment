@@ -1,3 +1,4 @@
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
+import com.harish.jarassignment.core.util.hexToComposeColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,17 +45,16 @@ fun LandingScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF2B2930)
+                    containerColor = "#201929".hexToComposeColor()
                 )
             )
-        },
-        containerColor = Color(0xFF2B2930)
+        }
     ) { innerPadding ->
         Column(
             modifier = modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(Color(0xFF2B2930)),
+                .background("#201929".hexToComposeColor()),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {

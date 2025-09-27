@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -109,7 +108,7 @@ fun AnimateSequentialCards(
         label = "cornerAnim",
         transitionSpec = { tween(durationMillis = SLOW_DURATION_MEDIUM) }
     ) { isExpanded ->
-        if (isExpanded) 20.dp else 30.dp
+        if (isExpanded) 20.dp else 40.dp
     }
 
     LaunchedEffect(key1 = Unit) {
@@ -217,7 +216,6 @@ fun AnimateSequentialCards(
         colors = CardDefaults.cardColors(
             containerColor = backgroundColor.hexToComposeColor()
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
     ) {
         if (expanded) {
             Column(
@@ -261,11 +259,10 @@ fun AnimateSequentialCards(
                     AsyncImage(
                         model = collapsedImage,
                         contentDescription = "Collapsed image",
-                        modifier = Modifier
-                            .size(40.dp)
-                            .clip(CircleShape)
+                        modifier = Modifier.clip(RoundedCornerShape(100.dp)).size(32.dp),
+                        contentScale = ContentScale.Crop
                     )
-                    Spacer(modifier = Modifier.width(12.dp))
+                    Spacer(modifier = Modifier.width(16.dp))
                     Text(
                         text = collapsedText,
                         fontWeight = FontWeight.Medium,
