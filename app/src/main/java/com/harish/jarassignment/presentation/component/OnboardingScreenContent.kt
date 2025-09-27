@@ -34,7 +34,7 @@ fun OnboardingScreenContent(
         OnboardingWelcomeScreen(
             title = onboardingData?.manualBuyEducationData?.introTitle ?: "",
             subtitle = onboardingData?.manualBuyEducationData?.introSubtitle ?: "",
-            animDuration = 2000,
+            animDuration = 500,
             onAnimationEnd = {
                 onNext(OnboardingAnimationStates.ONBOARDING_TOOLBAR)
             },
@@ -53,7 +53,7 @@ fun OnboardingScreenContent(
 
             AnimatedVisibility(
                 visible = visible ,
-                enter = fadeIn(tween(2000))
+                enter = fadeIn(tween(500))
             ) {
 
                 LaunchedEffect(Unit) {
@@ -64,6 +64,15 @@ fun OnboardingScreenContent(
                 SimpleOnboardingToolbar(
                     title = "Onboarding",
                     onNavigateBack = { println("Navigate back clicked") }
+                )
+            }
+
+
+            AnimatedVisibility(
+                visible = animationState == OnboardingAnimationStates.ONBOARDING_CONTENT,
+            ) {
+                OnboardingEducationalCards(
+                    animCardList = onboardingData?.manualBuyEducationData?.educationCardList
                 )
             }
         }
