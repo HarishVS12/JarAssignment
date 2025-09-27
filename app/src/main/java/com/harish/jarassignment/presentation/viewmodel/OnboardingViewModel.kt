@@ -32,11 +32,31 @@ class OnboardingViewModel @Inject constructor(
                     getOnboardingData().collect { res ->
                         _onboardingState.value = when (res) {
                             is ResultMain.Loading -> OnboardingState(isLoading = true)
-                            is ResultMain.Success -> OnboardingState(onboardingData = res.data, isError = false)
-                            is ResultMain.Error -> OnboardingState(errorMessage = res.errorMessage, isError = true)
+                            is ResultMain.Success -> OnboardingState(
+                                onboardingData = res.data,
+                                isError = false
+                            )
+
+                            is ResultMain.Error -> OnboardingState(
+                                errorMessage = res.errorMessage,
+                                isError = true
+                            )
                         }
                     }
                 }
+            }
+
+            is OnboardingActions.ChangeOnboardingBackgroundColor -> {
+                _onboardingState.value = _onboardingState.value.copy(
+                    bgStartColor = action.startGradient,
+                    bgEndColor = action.endGradient
+                )
+            }
+
+            is OnboardingActions.ChangeOnboardingAnimationState -> {
+                _onboardingState.value = _onboardingState.value.copy(
+                    onboardingAnimationState = action.state
+                )
             }
         }
     }
