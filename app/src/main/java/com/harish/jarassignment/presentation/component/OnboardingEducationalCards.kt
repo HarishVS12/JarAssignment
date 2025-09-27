@@ -33,13 +33,7 @@ fun OnboardingEducationalCards(
     ) {
         animCardList?.take(visibleCards)?.forEachIndexed { index, educationCard ->
             AnimateSequentialCards(
-                expandedText = educationCard?.expandStateText ?: "",
-                expandedImage = educationCard?.image ?: "",
-                collapsedText = educationCard?.collapsedStateText ?: "",
-                collapsedImage = educationCard?.image ?: "",
-                backgroundColor = educationCard?.backGroundColor ?: "",
-                startGradient = educationCard?.startGradient ?: "",
-                endGradient = educationCard?.endGradient ?: "",
+                educationCard = educationCard,
                 index = index,
                 isLastCard = index == animCardList.lastIndex,
                 onCollapsed = {

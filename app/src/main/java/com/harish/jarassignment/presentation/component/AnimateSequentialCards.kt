@@ -7,6 +7,7 @@ import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -41,12 +42,14 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.harish.jarassignment.core.util.hexToComposeColor
+import com.harish.jarassignment.domain.model.EducationCard
 import com.harish.jarassignment.presentation.state.OnboardingAnimationStates
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -60,13 +63,7 @@ private const val SLOW_DURATION_SHORT = 600
 
 @Composable
 fun AnimateSequentialCards(
-    collapsedText: String,
-    collapsedImage: String,
-    expandedImage: String,
-    expandedText: String,
-    backgroundColor: String,
-    startGradient: String,
-    endGradient: String,
+    educationCard: EducationCard?,
     index: Int,
     isLastCard: Boolean,
     onCollapsed: () -> Unit,
@@ -119,7 +116,10 @@ fun AnimateSequentialCards(
                 targetValue = centerTargetY,
                 animationSpec = tween(SLOW_DURATION_LONG, easing = FastOutSlowInEasing)
             )
-            onBackgroundColorChange(startGradient, endGradient)
+            onBackgroundColorChange(
+                educationCard?.startGradient ?: "",
+                educationCard?.endGradient ?: ""
+            )
             delay(600)
             launch {
                 val tilt = if (index % 2 == 0) -8f else 7f
@@ -162,7 +162,10 @@ fun AnimateSequentialCards(
                 )
             )
             delay(600)
-            onBackgroundColorChange(startGradient, endGradient)
+            onBackgroundColorChange(
+                educationCard?.startGradient ?: "",
+                educationCard?.endGradient ?: ""
+            )
             if (isLastCard)
                 onNextAnimState(OnboardingAnimationStates.ONBOARDING_FULL_INTENT)
             offsetY.animateTo(
@@ -210,8 +213,21 @@ fun AnimateSequentialCards(
             .padding(horizontal = 8.dp),
         shape = RoundedCornerShape(cornerRadius),
         colors = CardDefaults.cardColors(
-            containerColor = backgroundColor.hexToComposeColor()
+            containerColor = educationCard?.backGroundColor?.hexToComposeColor()
+                ?: Color.Transparent
         ),
+        border = BorderStroke(
+            width = 1.dp,
+            brush = androidx.compose.ui.graphics.Brush.linearGradient(
+                colors = listOf(
+                    educationCard?.strokeStartColor?.hexToComposeColor()
+                        ?: Color.White.copy(alpha = 0.5f),
+
+                    educationCard?.strokeEndColor?.hexToComposeColor()
+                        ?: Color.White.copy(alpha = 0.5f)
+                )
+            )
+        )
     ) {
         if (expanded) {
             Column(
@@ -223,7 +239,7 @@ fun AnimateSequentialCards(
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 AsyncImage(
-                    model = expandedImage,
+                    model = educationCard?.image,
                     contentDescription = "Expanded image",
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -234,7 +250,7 @@ fun AnimateSequentialCards(
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = expandedText,
+                    text = educationCard?.expandStateText ?: "",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -253,14 +269,16 @@ fun AnimateSequentialCards(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     AsyncImage(
-                        model = collapsedImage,
+                        model = educationCard?.image,
                         contentDescription = "Collapsed image",
-                        modifier = Modifier.clip(RoundedCornerShape(100.dp)).size(32.dp),
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(100.dp))
+                            .size(32.dp),
                         contentScale = ContentScale.Crop
                     )
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(
-                        text = collapsedText,
+                        text = educationCard?.collapsedStateText ?: "",
                         fontWeight = FontWeight.Medium,
                         color = Color.White,
                         fontSize = 15.sp
@@ -277,21 +295,15 @@ fun AnimateSequentialCards(
 }
 
 
-@Preview
+@Preview(device = Devices.PIXEL_4)
 @Composable
 fun AnimatedCardPreview() {
     AnimateSequentialCards(
-        collapsedText = "This is the collapsed text",
-        collapsedImage = "",
-        expandedImage = "",
-        expandedText = "This is the expanded text",
-        backgroundColor = "",
+        educationCard = null,
         index = 0,
         isLastCard = false,
         onCollapsed = {},
         finalOffsetY = 0.dp,
-        startGradient = "",
-        endGradient = "",
         onBackgroundColorChange = { _, _ ->
         },
         onNextAnimState = {}
