@@ -14,10 +14,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.harish.jarassignment.domain.model.EducationCard
+import com.harish.jarassignment.presentation.state.OnboardingAnimationStates
 
 
 @Composable
-fun OnboardingEducationalCards(animCardList: List<EducationCard?>?) {
+fun OnboardingEducationalCards(
+    animCardList: List<EducationCard?>?,
+    onNextAnimState: (OnboardingAnimationStates) -> Unit
+) {
     var visibleCards by remember { mutableIntStateOf(0) }
 
     Box(
@@ -39,7 +43,8 @@ fun OnboardingEducationalCards(animCardList: List<EducationCard?>?) {
                         visibleCards++
                     }
                 },
-                finalOffsetY = index.times(110.dp)
+                finalOffsetY = index.times(110.dp),
+                onNextAnimState = onNextAnimState
             )
         }
     }

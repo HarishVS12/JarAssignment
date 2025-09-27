@@ -47,6 +47,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.harish.jarassignment.presentation.state.OnboardingAnimationStates
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
@@ -67,6 +68,7 @@ fun AnimateSequentialCards(
     isLastCard: Boolean,
     onCollapsed: () -> Unit,
     finalOffsetY: Dp,
+    onNextAnimState: (OnboardingAnimationStates) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(true) }
     val transition = updateTransition(targetState = expanded, label = "cardTransition")
@@ -158,6 +160,8 @@ fun AnimateSequentialCards(
                 )
             )
             delay(500)
+            if(isLastCard)
+                onNextAnimState(OnboardingAnimationStates.ONBOARDING_FULL_INTENT)
             offsetY.animateTo(
                 targetValue = finalOffsetYPx,
                 animationSpec = tween(
@@ -186,6 +190,7 @@ fun AnimateSequentialCards(
                 rotationAnim.animateTo(0f, tween(SLOW_DURATION_SHORT, easing = FastOutSlowInEasing))
             } else {
                 expanded = true
+                onNextAnimState(OnboardingAnimationStates.ONBOARDING_ALL)
                 onCollapsed()
             }
         }
@@ -283,7 +288,8 @@ fun AnimatedCardPreview() {
         index = 0,
         isLastCard = false,
         onCollapsed = {},
-        finalOffsetY = 0.dp
+        finalOffsetY = 0.dp,
+        onNextAnimState = {}
     )
 }
 
