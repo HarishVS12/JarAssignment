@@ -22,14 +22,23 @@ import com.harish.jarassignment.presentation.viewmodel.OnboardingViewModel
 
 
 @Composable
-fun OnboardingScreenRoot(modifier: Modifier = Modifier) {
+fun OnboardingScreenRoot(
+    modifier: Modifier = Modifier,
+    onBackPress: () -> Unit,
+    onNavigateToLandingPage: () -> Unit
+) {
     val viewModel = hiltViewModel<OnboardingViewModel>()
-    OnboardingScreen(modifier, viewModel)
+    OnboardingScreen(modifier, viewModel, onBackPress, onNavigateToLandingPage)
 }
 
 
 @Composable
-fun OnboardingScreen(modifier: Modifier = Modifier, viewModel: OnboardingViewModel) {
+fun OnboardingScreen(
+    modifier: Modifier = Modifier,
+    viewModel: OnboardingViewModel,
+    onBackPress: () -> Unit,
+    onNavigateToLandingPage: () -> Unit
+) {
 
     val state by viewModel.onboardingState.collectAsState()
 
@@ -61,6 +70,7 @@ fun OnboardingScreen(modifier: Modifier = Modifier, viewModel: OnboardingViewMod
 
             state.onboardingData != null -> {
                 OnboardingScreenContent(
+                    modifier = modifier.fillMaxSize(),
                     animationState = state.onboardingAnimationState,
                     onboardingData = state.onboardingData?.onboardingData,
                     onNext = { nextState ->
@@ -68,7 +78,8 @@ fun OnboardingScreen(modifier: Modifier = Modifier, viewModel: OnboardingViewMod
                             OnboardingActions.ChangeOnboardingAnimationState(nextState)
                         )
                     },
-                    modifier = modifier.fillMaxSize()
+                    onBackPress = onBackPress,
+                    onNavigateToLandingPage = onNavigateToLandingPage
                 )
             }
 

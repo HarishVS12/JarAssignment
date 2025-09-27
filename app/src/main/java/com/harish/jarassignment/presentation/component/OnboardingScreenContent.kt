@@ -28,7 +28,9 @@ fun OnboardingScreenContent(
     animationState: OnboardingAnimationStates,
     onboardingData: OnboardingData?,
     onNext: (OnboardingAnimationStates) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onBackPress: () -> Unit,
+    onNavigateToLandingPage: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -59,7 +61,7 @@ fun OnboardingScreenContent(
                 else -> false
             }
             FadeOnlyVisibility(visible = toolbarVisible) {
-                LaunchedEffect(animationState) {
+                LaunchedEffect(key1 = animationState) {
                     if (animationState == OnboardingAnimationStates.ONBOARDING_TOOLBAR) {
                         delay(2000)
                         onNext(OnboardingAnimationStates.ONBOARDING_CONTENT)
@@ -67,7 +69,7 @@ fun OnboardingScreenContent(
                 }
                 SimpleOnboardingToolbar(
                     title = "Onboarding",
-                    onNavigateBack = { println("Navigate back clicked") }
+                    onNavigateBack = onBackPress
                 )
             }
 
@@ -104,9 +106,7 @@ fun OnboardingScreenContent(
                 .padding(bottom = 60.dp)
         ) {
             SaveButton(
-                onClick = {
-
-                },
+                onClick = onNavigateToLandingPage,
             )
         }
     }
