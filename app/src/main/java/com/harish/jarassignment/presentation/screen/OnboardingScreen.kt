@@ -78,6 +78,11 @@ fun OnboardingScreen(
                             OnboardingActions.ChangeOnboardingAnimationState(nextState)
                         )
                     },
+                    onBackgroundColorChange = { start, end ->
+                        viewModel.onAction(
+                            OnboardingActions.ChangeOnboardingBackgroundColor(start, end)
+                        )
+                    },
                     onBackPress = onBackPress,
                     onNavigateToLandingPage = onNavigateToLandingPage
                 )

@@ -7,6 +7,7 @@ import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -47,6 +48,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.harish.jarassignment.core.util.hexToComposeColor
 import com.harish.jarassignment.presentation.state.OnboardingAnimationStates
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
@@ -64,12 +66,17 @@ fun AnimateSequentialCards(
     collapsedImage: String,
     expandedImage: String,
     expandedText: String,
+    backgroundColor: String,
+    startGradient: String,
+    endGradient: String,
     index: Int,
     isLastCard: Boolean,
     onCollapsed: () -> Unit,
     finalOffsetY: Dp,
     onNextAnimState: (OnboardingAnimationStates) -> Unit,
-) {
+    onBackgroundColorChange: (String, String) -> Unit,
+
+    ) {
     var expanded by remember { mutableStateOf(true) }
     val transition = updateTransition(targetState = expanded, label = "cardTransition")
 
@@ -102,11 +109,8 @@ fun AnimateSequentialCards(
         label = "cornerAnim",
         transitionSpec = { tween(durationMillis = SLOW_DURATION_MEDIUM) }
     ) { isExpanded ->
-        if (isExpanded) 20.dp else 60.dp
+        if (isExpanded) 20.dp else 30.dp
     }
-
-    val cardColorExpanded = Color(0xFFC0A2E0)
-    val cardColorCollapsed = Color(0xFF534267)
 
     LaunchedEffect(key1 = Unit) {
         if (index == 0 && !isLastCard) {
@@ -117,8 +121,8 @@ fun AnimateSequentialCards(
                 targetValue = centerTargetY,
                 animationSpec = tween(SLOW_DURATION_LONG, easing = FastOutSlowInEasing)
             )
+            onBackgroundColorChange(startGradient, endGradient)
             delay(600)
-
             launch {
                 val tilt = if (index % 2 == 0) -8f else 7f
                 rotationAnim.animateTo(
@@ -159,15 +163,16 @@ fun AnimateSequentialCards(
                     easing = FastOutSlowInEasing
                 )
             )
-            delay(500)
-            if(isLastCard)
+            delay(600)
+            onBackgroundColorChange(startGradient, endGradient)
+            if (isLastCard)
                 onNextAnimState(OnboardingAnimationStates.ONBOARDING_FULL_INTENT)
             offsetY.animateTo(
                 targetValue = finalOffsetYPx,
                 animationSpec = tween(
                     SLOW_DURATION_LONG,
                     easing = FastOutSlowInEasing
-            )
+                )
             )
             delay(800)
 
@@ -205,12 +210,12 @@ fun AnimateSequentialCards(
                 rotationZ = rotationAnim.value
             }
             .padding(horizontal = 8.dp)
-            .clickable{
+            .clickable {
                 expanded = !expanded
             },
         shape = RoundedCornerShape(cornerRadius),
         colors = CardDefaults.cardColors(
-            containerColor = if (expanded) cardColorExpanded else cardColorCollapsed
+            containerColor = backgroundColor.hexToComposeColor()
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
     ) {
@@ -218,6 +223,7 @@ fun AnimateSequentialCards(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
+                    .background(Color.Transparent)
                     .padding(top = 24.dp, start = 24.dp, end = 24.dp, bottom = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.SpaceBetween
@@ -230,6 +236,7 @@ fun AnimateSequentialCards(
                         .fillMaxWidth()
                         .height(400.dp)
                         .clip(RoundedCornerShape(20.dp))
+                        .background(Color.Transparent)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
@@ -285,10 +292,15 @@ fun AnimatedCardPreview() {
         collapsedImage = "",
         expandedImage = "",
         expandedText = "This is the expanded text",
+        backgroundColor = "",
         index = 0,
         isLastCard = false,
         onCollapsed = {},
         finalOffsetY = 0.dp,
+        startGradient = "",
+        endGradient = "",
+        onBackgroundColorChange = { _, _ ->
+        },
         onNextAnimState = {}
     )
 }

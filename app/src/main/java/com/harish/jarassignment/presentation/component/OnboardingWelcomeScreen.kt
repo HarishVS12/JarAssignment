@@ -79,7 +79,7 @@ fun OnboardingWelcomeScreen(
 
     LaunchedEffect(true) {
         showText = false
-        delay(animDuration)
+        delay(800)
         onAnimationEnd()
     }
 

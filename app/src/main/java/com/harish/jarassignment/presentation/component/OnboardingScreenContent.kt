@@ -30,7 +30,8 @@ fun OnboardingScreenContent(
     onNext: (OnboardingAnimationStates) -> Unit,
     modifier: Modifier = Modifier,
     onBackPress: () -> Unit,
-    onNavigateToLandingPage: () -> Unit
+    onNavigateToLandingPage: () -> Unit,
+    onBackgroundColorChange: (String, String) -> Unit
 ) {
     Box(
         modifier = modifier
@@ -43,7 +44,7 @@ fun OnboardingScreenContent(
         OnboardingWelcomeScreen(
             title = onboardingData?.manualBuyEducationData?.introTitle ?: "",
             subtitle = onboardingData?.manualBuyEducationData?.introSubtitle ?: "",
-            animDuration = 500,
+            animDuration = 1500,
             onAnimationEnd = {
                 onNext(OnboardingAnimationStates.ONBOARDING_TOOLBAR)
             },
@@ -63,12 +64,12 @@ fun OnboardingScreenContent(
             FadeOnlyVisibility(visible = toolbarVisible) {
                 LaunchedEffect(key1 = animationState) {
                     if (animationState == OnboardingAnimationStates.ONBOARDING_TOOLBAR) {
-                        delay(2000)
+                        delay(500)
                         onNext(OnboardingAnimationStates.ONBOARDING_CONTENT)
                     }
                 }
                 SimpleOnboardingToolbar(
-                    title = "Onboarding",
+                    title = onboardingData?.manualBuyEducationData?.toolBarText ?: "",
                     onNavigateBack = onBackPress
                 )
             }
@@ -86,7 +87,8 @@ fun OnboardingScreenContent(
             ) {
                 OnboardingEducationalCards(
                     animCardList = onboardingData?.manualBuyEducationData?.educationCardList,
-                    onNextAnimState = onNext
+                    onNextAnimState = onNext,
+                    onBackgroundColorChange = onBackgroundColorChange
                 )
             }
 
@@ -107,6 +109,8 @@ fun OnboardingScreenContent(
         ) {
             SaveButton(
                 onClick = onNavigateToLandingPage,
+                saveButtonCta = onboardingData?.manualBuyEducationData?.saveButtonCta,
+                lottieUrl = onboardingData?.manualBuyEducationData?.ctaLottie?:""
             )
         }
     }
