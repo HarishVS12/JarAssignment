@@ -86,4 +86,7 @@ dependencies {
     //Coil-Compose
     implementation(libs.coil.compose)
 
+    //Lottie
+    implementation(libs.lottie.compose)
+
 }

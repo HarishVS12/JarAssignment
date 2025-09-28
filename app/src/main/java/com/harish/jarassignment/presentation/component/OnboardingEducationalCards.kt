@@ -20,7 +20,8 @@ import com.harish.jarassignment.presentation.state.OnboardingAnimationStates
 @Composable
 fun OnboardingEducationalCards(
     animCardList: List<EducationCard?>?,
-    onNextAnimState: (OnboardingAnimationStates) -> Unit
+    onNextAnimState: (OnboardingAnimationStates) -> Unit,
+    onBackgroundColorChange: (String, String) -> Unit
 ) {
     var visibleCards by remember { mutableIntStateOf(0) }
 
@@ -32,10 +33,7 @@ fun OnboardingEducationalCards(
     ) {
         animCardList?.take(visibleCards)?.forEachIndexed { index, educationCard ->
             AnimateSequentialCards(
-                expandedText = educationCard?.expandStateText ?: "",
-                expandedImage = educationCard?.image ?: "",
-                collapsedText = educationCard?.collapsedStateText ?: "",
-                collapsedImage = educationCard?.image ?: "",
+                educationCard = educationCard,
                 index = index,
                 isLastCard = index == animCardList.lastIndex,
                 onCollapsed = {
@@ -44,7 +42,8 @@ fun OnboardingEducationalCards(
                     }
                 },
                 finalOffsetY = index.times(110.dp),
-                onNextAnimState = onNextAnimState
+                onNextAnimState = onNextAnimState,
+                onBackgroundColorChange = onBackgroundColorChange
             )
         }
     }

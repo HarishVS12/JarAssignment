@@ -1,6 +1,5 @@
 package com.harish.jarassignment.core
 
-// No direct import for slideUp, we use slideOutOfContainer with Up direction for exit
 
 import LandingScreen
 import android.os.Bundle
@@ -63,7 +62,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         LandingScreen(
                             onNavigateBack = {
-                                navController.popBackStack()
+                                finish()
                             }
                         )
                     }
